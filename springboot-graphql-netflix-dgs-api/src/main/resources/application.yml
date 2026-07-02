@@ -1,0 +1,80 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: graphql-spring-boot
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/graphql_demo?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456789
+  h2:
+    console:
+      enabled: true
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        format_sql: true
+        show_sql: true
+  graphql:
+    dgs:
+      graphql:
+        path: /graphql
+      playground:
+        enabled: true
+        endpoint: /graphql
+      federation:
+        enabled: true
+    graphiql:
+      enabled: true
+    cors:
+      allowed-origins: ${app.cors.allowed-origins}
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+          default:
+            loggerLevel: BASIC
+  # 缓存
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=60s
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: ADMIN
+
+# DGS 全局配置
+dgs:
+  graphql:
+    federation:
+      enabled: true
+    tracing:
+      enabled: true
+    introspection:
+      enabled: true
+  security:
+    # 开启DGS字段级权限校验
+    field-auth:
+      enabled: true
+
+# Actuator监控端点暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+  # request uri
+  # http://localhost:8888/graphiql

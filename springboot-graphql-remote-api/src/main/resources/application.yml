@@ -1,0 +1,49 @@
+server.port: 9080
+
+spring:
+  application:
+    name: book-review-api
+  jpa:
+    hibernate:
+      ddl-auto: update
+      defer-datasource-initialization: true
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+          enable_lazy_load_no_trans: true
+  mongodb:
+    host: ${MONGODB_HOST:127.0.0.1}
+    port: ${MONGODB_PORT:27017}
+    database: bookreviewdb
+    username: root
+    password: 123456789
+    uri: mongodb://${MONGODB_USERNAME:root}:${MONGODB_PASSWORD:123456789}@${MONGODB_HOST:127.0.0.1}:${MONGODB_PORT:27017}/${MONGODB_DATABASE:bookreviewdb}
+    authentication-database: admin
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: ${spring.data.mongodb.uri}
+  graphql:
+    graphiql:
+      enabled: true
+    cors:
+      allowed-origins: ${app.cors.allowed-origins}
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000, http://localhost:3001
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    export:
+      zipkin:
+        endpoint: http://${ZIPKIN_HOST:localhost}:${ZIPKIN_PORT:9411}/api/v2/spans
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.mongodb.driver.protocol.command: DEBUG
+    org.springframework.graphql: DEBUG

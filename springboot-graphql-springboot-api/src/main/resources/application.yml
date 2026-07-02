@@ -1,0 +1,95 @@
+server.port: 8080
+
+spring:
+  application:
+    name: author-book-api
+  jpa:
+      defer-datasource-initialization: true
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+          enable_lazy_load_no_trans: true
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/authorbookdb?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456789
+  graphql:
+    graphiql:
+      enabled: true
+    cors:
+      allowed-origins: ${app.cors.allowed-origins}
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+          default:
+            loggerLevel: BASIC
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+
+book-review-api:
+  url: http://${BOOK_REVIEW_API_HOST:localhost}:${BOOK_REVIEW_API_PORT:9080}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    export:
+      zipkin:
+        endpoint: http://${ZIPKIN_HOST:localhost}:${ZIPKIN_PORT:9411}/api/v2/spans
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql.BasicBinder: TRACE
+    com.application.graphql.mysql.client.BookReviewApiClient: DEBUG
+    org.springframework.graphql: DEBUG
+
+## resilience4j 配置处理: https://www.cnblogs.com/hewei-blogs/articles/19763559
+resilience4j:
+  circuitbreaker:
+    instances:
+      backendA: # 实例名称
+        registerHealthIndicator: true
+        slidingWindowSize: 10 # 滑动窗口大小（请求数）
+        failureRateThreshold: 50 # 失败率阈值（%），超过则熔断
+        waitDurationInOpenState: 10s # 熔断后等待多久进入 Half-Open
+        permittedNumberOfCallsInHalfOpenState: 3 # Half-Open 状态允许通过的请求数
+        automaticTransitionFromOpenToHalfOpenEnabled: true # 自动过渡到 Half-Open
+
+  ratelimiter:
+    instances:
+      backendA:
+        limitForPeriod: 5 # 每个周期允许的调用数
+        limitRefreshPeriod: 1s # 周期时长
+        timeoutDuration: 0s # 获取许可的等待时间（0 表示立即拒绝）
+
+  retry:
+    instances:
+      backendA:
+        maxAttempts: 3 # 最大重试次数
+        waitDuration: 500ms # 重试间隔
+        enableExponentialBackoff: true # 启用指数退避
+        exponentialBackoffMultiplier: 2 # 退避倍数
+
+  bulkhead:
+    instances:
+      backendA:
+        maxConcurrentCalls: 10 # 最大并发数
+        maxWaitDuration: 100ms # 等待获取资源的最大时间
+
+  timelimiter:
+    instances:
+      backendA:
+        timeoutDuration: 2s # 超时时间
+        cancelRunningFuture: true # 超时时是否取消未来任务

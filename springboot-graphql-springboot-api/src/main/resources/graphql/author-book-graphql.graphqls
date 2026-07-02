@@ -1,0 +1,91 @@
+# ------
+# Author
+
+type Author {
+    id: ID!
+    name: String!
+    books: [Book]
+}
+
+input CreateAuthorInput {
+    name: String!
+    books: [CreateBookInput]
+}
+
+input UpdateAuthorInput {
+    name: String
+}
+
+# ----
+# Book
+
+type Book {
+    id: ID!
+    isbn: String!
+    title: String!
+    year: Int!
+    authorInfo: Author!
+    bookReview: BookReview!
+}
+
+input CreateBookInput {
+    id: ID
+    authorId: Int!
+    isbn: String!
+    title: String!
+    year: Int!
+}
+
+input UpdateBookInput {
+    authorId: Int
+    isbn: String
+    title: String
+    year: Int
+}
+
+# ----------
+# BookReview
+
+type BookReview {
+    error: String
+    id: String
+    reviewInfos: [Review!]!
+}
+
+# ------
+# Review
+
+type Review {
+    reviewer: String!
+    comment: String!
+    rating: Int!
+    createdAt: String!
+}
+
+# ---
+
+type Query {
+    getAuthors: [Author!]!
+    getAuthorById(authorId: ID!): Author
+    getAuthorByIds(authorIds: [ID!]!): [Author]!
+    getAuthorByName(authorName: String!): [Author!]!
+
+    getBooks: [Book!]!
+    getBookById(bookId: ID!): Book
+    getBookByIds(bookIds: [ID!]): [Book!]!
+    getBookReview(isbn: String!): BookReview!
+}
+
+# ---
+
+type Mutation {
+    createAuthor(authorInput: CreateAuthorInput!): Author!
+    createAuthors(authorInputs: [CreateAuthorInput!]!): Boolean!
+    updateAuthor(authorId: ID!, authorInput: UpdateAuthorInput!): Author!
+    deleteAuthor(authorId: ID!): Author!
+
+    createBook(bookInput: CreateBookInput!): Book!
+    createBooks(bookInputs: [CreateBookInput!]!): Boolean!
+    updateBook(bookId: ID!, bookInput: UpdateBookInput!): Book!
+    deleteBook(bookId: ID!): Book!
+}
