@@ -1,0 +1,83 @@
+## 定义Node
+interface Node {
+    id: ID!
+}
+
+## 作者信息
+type AuthorInfo implements Node {
+    id: ID!
+    authorName: String!
+    # 仅ADMIN角色可见
+    authorEmail: String @visibleFor(roles: ["ADMIN"])
+    authorDesc: String
+    birthDate: LocalDateTime
+    createTime: LocalDateTime
+    updateTime: LocalDateTime
+    bookInfos: [BookInfo!]! @cacheControl(maxAge: 300)
+    totalBooks: Int @deprecated(reason: "Use books count instead")
+}
+
+## 书的信息
+type BookInfo implements Node {
+    id: ID!
+    bookTitle: String!
+    bookIsbn: String!
+    publishDate: LocalDate
+    # 价格敏感字段，仅管理员查看
+    bookPrice: BigDecimal @visibleFor(roles: ["ADMIN"])
+    bookType: BookType!
+    pageCount: Int
+    authorId: Int
+    createTime: LocalDateTime
+    updateTime: LocalDateTime
+    authorInfo: AuthorInfo! @external
+    reviewInfos: [ReviewInfo!]! @external
+}
+
+## 书评信息
+type ReviewInfo implements Node {
+    id: ID!
+    bookId: ID!
+    bookInfo: BookInfo! @external
+    reviewer: String!
+    rating: Int!
+    reviewComment: String
+    createTime: LocalDateTime
+}
+
+#分页请求
+type PageResultBook {
+    pageNum: Int
+    pageSize: Int
+    pageList: [BookInfo]
+    totalCount: Long
+    pageCount: Int
+}
+# 查询条件
+type BookConnection {
+    edges: [BookEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+## 分页定义
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+# Book edge
+type BookEdge {
+    node: BookInfo!
+    cursor: String!
+}
+
+#管理员状态
+type AdminStats {
+    totalBooks: Int!
+    totalAuthors: Int!
+    totalReviews: Int!
+    avgRating: Float!
+}

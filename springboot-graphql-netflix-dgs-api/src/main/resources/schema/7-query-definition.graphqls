@@ -1,0 +1,15 @@
+
+type Query {
+    ## Author_Info
+    authorById(authorId: ID!): AuthorInfo
+    getAuthors: [AuthorInfo!]!
+
+    ## Book_Info
+    bookById(bookId: ID!): BookInfo
+    getBooks(bookType: BookType, pageNum: Int = 0, pageSize: Int = 10): [BookInfo!]!
+    bookPage(pageReq: BookPageRequest): PageResultBook
+
+    ## Review_Info
+    reviewById(reviewId: ID!): ReviewInfo
+    getReviews(bookId: ID!): [ReviewInfo!]!
+}

@@ -1,0 +1,4 @@
+## 指令（Directive）是挂载在类型、字段、枚举上的标记注解，作用是给 Schema 附加额外业务 / 框架逻辑，不影响查询结构，但会改变运行行为
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+directive @visibleFor(roles: [String!]!) on FIELD_DEFINITION
+directive @deprecated(reason: String!) on FIELD_DEFINITION | ENUM_VALUE

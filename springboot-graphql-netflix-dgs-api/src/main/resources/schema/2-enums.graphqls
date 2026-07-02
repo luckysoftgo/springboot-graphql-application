@@ -1,0 +1,19 @@
+# 自定义枚举变量
+## Schema 定义枚举 BookType（和 Java BookTypeEnum 一一对应）
+
+enum BookType {
+    FICTION,
+    NON_FICTION,
+    SCIENCE,
+    HISTORY,
+    BIOGRAPHY,
+    CHILDREN,
+    OTHER
+}
+
+enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+}
+
+

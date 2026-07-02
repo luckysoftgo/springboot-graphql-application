@@ -1,0 +1,12 @@
+# 自定义标量( GraphQL 原生只提供基础标量：String / Int / Float / Boolean / ID)
+# Date 对应Java ：java.util.Date
+# LocalDate 对应Java ：java.time.LocalDate
+# UUID 对应Java ：java.util.UUID
+
+scalar Date
+scalar UUID
+scalar Long
+scalar DateTime
+scalar LocalDate
+scalar LocalDateTime
+scalar BigDecimal

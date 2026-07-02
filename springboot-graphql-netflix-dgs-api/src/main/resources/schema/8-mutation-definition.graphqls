@@ -1,0 +1,11 @@
+# 新增/修改 Mutation
+type Mutation {
+    #添加作者
+    createAuthor(authorInput: CreateAuthorInfo): AuthorInfo!
+
+    #添加书
+    createBook(bookInput: CreateBookInfo): BookInfo!
+
+    ##添加评论
+    createReview(reviewInput: CreateReviewInfo): ReviewInfo!
+}

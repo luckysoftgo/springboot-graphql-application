@@ -1,0 +1,13 @@
+# 自定义标量、枚举省略，沿用之前定义
+type Subscription {
+    """
+    全局监听任意新书新增事件
+    """
+    bookAdded: BookInfo! @cacheControl(maxAge: 0)
+
+    """
+    监听指定书籍的新增评论，服务端按bookId过滤消息
+    """
+    reviewAdded(bookId: ID!): ReviewInfo! @cacheControl(maxAge: 0)
+}
+

@@ -1,0 +1,49 @@
+## 公共变量，用 base 在其子 input 中进行使用;
+## 详细参见：BookPageRequest
+input PageRequest {
+    pageNum: Int = 1
+    pageSize: Int = 10
+}
+
+## author_info
+input CreateAuthorInfo {
+    authorName: String!
+    authorEmail: String!
+    authorDesc: String
+    birthDate: String
+}
+
+## book_info
+input CreateBookInfo {
+    bookTitle: String!
+    bookIsbn: String!
+    publishDate: String
+    bookPrice: BigDecimal
+    bookType: BookType!
+    pageCount: Int
+    authorId: ID!
+}
+input UpdateBookInfo {
+    id: ID!
+    bookTitle: String
+    bookPrice: BigDecimal
+    pageCount: Int
+}
+
+input BookPageRequest {
+    base: PageRequest   ## 必填 , 特殊用法，公共变量提取出来，放在 base 中进行引用
+    authorId: ID
+    keyword: String
+}
+
+## review_info
+input CreateReviewInfo {
+    bookId: ID!
+    reviewer: String!
+    rating: Int!
+    reviewComment: String
+}
+
+
+
+
