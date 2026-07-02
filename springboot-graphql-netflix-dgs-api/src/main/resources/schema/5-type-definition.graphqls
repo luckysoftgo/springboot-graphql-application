@@ -10,7 +10,7 @@ type AuthorInfo implements Node {
     # 仅ADMIN角色可见
     authorEmail: String @visibleFor(roles: ["ADMIN"])
     authorDesc: String
-    birthDate: LocalDateTime
+    birthDate: LocalDate
     createTime: LocalDateTime
     updateTime: LocalDateTime
     bookInfos: [BookInfo!]! @cacheControl(maxAge: 300)
