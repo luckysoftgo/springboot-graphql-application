@@ -1,9 +1,9 @@
 -- 创建数据库
-CREATE DATABASE IF NOT EXISTS learning-practice-application
+CREATE DATABASE IF NOT EXISTS learning_practice_application
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_unicode_ci;
 
-USE learning-practice-application;
+USE learning_practice_application;
 
 -- 作者表
 DROP TABLE IF EXISTS author_info;
