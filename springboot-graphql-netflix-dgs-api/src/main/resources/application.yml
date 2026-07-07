@@ -6,7 +6,7 @@ spring:
     name: graphql-spring-boot
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/graphql_demo?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/learning-practice-application?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 123456789
   h2:

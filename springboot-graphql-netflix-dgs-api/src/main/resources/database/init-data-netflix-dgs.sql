@@ -1,9 +1,9 @@
 -- 创建数据库
-CREATE DATABASE IF NOT EXISTS graphql_demo
+CREATE DATABASE IF NOT EXISTS learning-practice-application
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_unicode_ci;
 
-USE graphql_demo;
+USE learning-practice-application;
 
 -- 作者表
 DROP TABLE IF EXISTS author_info;
